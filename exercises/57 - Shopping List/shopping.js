@@ -23,6 +23,7 @@ function handleSubmit(e) {
   e.target.reset();
   // fire off a custom event that will tell anyone else who cares that the items have been updated.
   // displayItems();
+  list.dispatchEvent(new CustomEvent('itemsUpdated'));
 }
 
 function displayItems() {
@@ -36,4 +37,10 @@ function displayItems() {
   list.innerHTML = html;
 }
 
+function mirrorToLocalStorage() {
+  console.info('Saving items to localstorage');
+}
+
 shoppingForm.addEventListener('submit', handleSubmit);
+list.addEventListener('itemsUpdated', displayItems)
+list.addEventListener('itemsUpdated', mirrorToLocalStorage)
