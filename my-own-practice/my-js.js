@@ -11,6 +11,13 @@ function Gallery(gallery) {
 	const nextButton = document.querySelector('.next');
 	let currentImage;
 
+
+	function handleKeyUp(event) {
+		if (event.key === 'Escape') return closeModal();
+		if (event.key === 'ArrowRight') showNextImage();
+		if (event.key === 'ArrowLeft') return showPrevImage();
+	}
+
 	function openModal() {
 		console.info('Opening Modal...');
 		// First check if the modal is already open
@@ -22,7 +29,7 @@ function Gallery(gallery) {
 
 		// Event listeners to be bound when we open the modal.
 
-		window.addEventListener('keyup', (e) => handleKeyUp(e.key));	
+		window.addEventListener('keyup', handleKeyUp);	
 		nextButton.addEventListener('click', showNextImage);
 		prevButton.addEventListener('click', showPrevImage);
 	};
@@ -59,19 +66,17 @@ function Gallery(gallery) {
 		showImage(currentImage.previousElementSibling || gallery.lastElementChild);
 	};
 
-	function handleKeyUp(key) {
-		if(key === 'Escape') {
+
+
+	function handleClickOutside(e) {
+		if(e.target === e.currentTarget) {
 			closeModal();
-		} else if (key === 'ArrowRight') {
-			showNextImage();
-		} else if (key === 'ArrowLeft') {
-			showPrevImage();
 		}
 	}
 
 	//event listeners
 images.forEach(image => image.addEventListener('click', (e) => showImage(e.currentTarget)));
-
+modal.addEventListener('click', handleClickOutside);
 
 
 };
