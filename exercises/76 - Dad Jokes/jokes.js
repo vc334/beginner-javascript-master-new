@@ -1,6 +1,10 @@
 const jokeButton = document.querySelector('.getJoke');
 
-const jokeHolder = document.querySelector('.getJoke p')
+const jokeHolder = document.querySelector('.joke p');
+
+const loader = document.querySelector('.loader');
+
+const jokeButtonSpan = document.querySelector('.jokeText');
 
 const buttonText = [
   'Ugh.',
@@ -14,13 +18,35 @@ const buttonText = [
 ];
 
 async function fetchJoke() {
+  // turn loader on
+  loader.classList.remove('hidden');
   const response = await fetch('https://icanhazdadjoke.com', {
     headers: {
       Accept: 'application/json',
     }
   });
   const data = await response.json();
-  console.log(data);
+  loader.classList.add('hidden');
+  return data;
 }
 
-fetchJoke();
+function randomItemFromArray(arr, not) {
+  const item = arr[Math.floor(Math.random() * arr.length)]
+
+  if (item === not) {
+    console.log("Ahh, we used that one already, let's try again")
+    return randomItemFromArray(arr, not);
+  }
+  return item;
+}
+
+async function handleClick() {
+  const { joke } = await fetchJoke();
+  jokeHolder.textContent = joke;
+  jokeButtonSpan.textContent = randomItemFromArray(
+    buttonText,
+    jokeButtonSpan.textContent
+    );
+}
+
+jokeButton.addEventListener('click', handleClick);
