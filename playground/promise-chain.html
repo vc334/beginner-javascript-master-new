@@ -52,31 +52,46 @@
     // 1. Change the text to GO when clicked.
     const box = document.querySelector('.click-me');
 
-    function animate(e) {
+    async function animate2(e) {
       const el = e.currentTarget;
       el.textContent = 'Go';
-      wait(200).then(() => {
-        el.classList.add('circle');
-        return wait(500);
-      })
-      .then(() => {
-        el.classList.add('red');
-        return wait(250);
-      })
-      .then(() => {
-        el.classList.remove('circle');
-        return wait(400);
-      })
-      .then(() => {
-        el.classList.add('purple');
-        return wait(500);
-      })
-      .then(() => {
-        el.classList.add('fade-out');
-      })
-    }
+      await wait(200)
+      el.classList.add('circle');
+      await wait(500);
+      el.classList.add('red');
+      await wait(250);
+      el.classList.remove('circle');
+      await wait(400);
+      el.classList.add('purple');
+      await wait(500);
+      el.classList.add('fade-out');
+  }
 
-    box.addEventListener('click', animate);
+    // function animate(e) {
+    //   const el = e.currentTarget;
+    //   el.textContent = 'Go';
+    //   wait(200).then(() => {
+    //     el.classList.add('circle');
+    //     return wait(500);
+    //   })
+    //   .then(() => {
+    //     el.classList.add('red');
+    //     return wait(250);
+    //   })
+    //   .then(() => {
+    //     el.classList.remove('circle');
+    //     return wait(400);
+    //   })
+    //   .then(() => {
+    //     el.classList.add('purple');
+    //     return wait(500);
+    //   })
+    //   .then(() => {
+    //     el.classList.add('fade-out');
+    //   })
+    // }
+
+    box.addEventListener('click', animate2);
 
     function start() {
       box.textContent = 'Go';
