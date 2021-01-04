@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Event Loop</title>
+  <link rel="stylesheet" href="../base.css">
+</head>
+
+<body>
+  <style>
+    .click-me {
+      margin: 5rem;
+      padding: 5rem;
+      width: 25rem;
+      height: 25rem;
+      background-color: white;
+      transition: all 0.2s;
+    }
+
+    .click-me.circle {
+      border-radius: 50%;
+    }
+
+    .click-me.red {
+      background-color: red;
+    }
+
+    .click-me.square {
+      border-radius: 0%;
+    }
+
+    .click-me.purple {
+      background-color: purple;
+    }
+
+    .click-me.fade-out {
+      opacity: 0;
+    }
+
+  </style>
+  <div class="click-me">Click me!</div>
+  <script>
+
+    const wait = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+    wait(200).then(() => {
+      console.log('Done!');
+    })
+    // 1. Change the text to GO when clicked.
+    const box = document.querySelector('.click-me');
+
+    function animate(e) {
+      const el = e.currentTarget;
+      el.textContent = 'Go';
+      wait(200).then(() => {
+        el.classList.add('circle');
+        return wait(500);
+      })
+      .then(() => {
+        el.classList.add('red');
+        return wait(250);
+      })
+      .then(() => {
+        el.classList.remove('circle');
+        return wait(400);
+      })
+      .then(() => {
+        el.classList.add('purple');
+        return wait(500);
+      })
+      .then(() => {
+        el.classList.add('fade-out');
+      })
+    }
+
+    box.addEventListener('click', animate);
+
+    function start() {
+      box.textContent = 'Go';
+
+      setTimeout(function () {
+        box.classList.add('circle');
+        setTimeout(function () {
+          box.classList.add('red');
+          setTimeout(function () {
+            box.classList.remove('circle');
+            setTimeout(function () {
+              box.classList.add('purple');
+              setTimeout(function () {
+                box.classList.add('fade-out');
+              }, 500);
+            }, 400);
+          }, 250);
+        }, 500);
+      }, 2000);
+    }
+
+
+
+
+    box.addEventListener('clickXXXX', start);
+    // 2. Make it a circle after 2 seconds
+    // 3. Make it red after 0.5s
+    // 4. make it square after 0.25s
+    // 5. make it purple
+    // 6. fade out after 0.5s
+
+  </script>
+</body>
+
+</html>
